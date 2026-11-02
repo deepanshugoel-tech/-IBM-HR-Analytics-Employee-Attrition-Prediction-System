@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Analytics | Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-logo">🤖</div>
+        <h1>HR Analytics</h1>
+        <p class="auth-subtitle">AI-Powered Employee Attrition Prediction System</p>
+        <h2>Login</h2>
+
+        <form id="loginForm">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" placeholder="Enter your email" autocomplete="username" required>
+
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password" required>
+
+            <button type="submit" class="auth-btn" id="loginBtn">Login</button>
+        </form>
+
+        <p id="loginMessage" class="auth-message"></p>
+
+        <p class="auth-switch">
+            Don't have an account?
+            <a href="register.html">Create Account</a>
+        </p>
+    </div>
+</div>
+
+<script>
+function goHome(role) {
+    window.location.replace(role === "HR" ? "index.html" : "employee.html");
+}
+
+// Already logged in? Skip the login page.
+fetch("/auth/me", { credentials: "same-origin" })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (u) { if (u) { goHome(u.role); } })
+    .catch(function () {});
+
+document.getElementById("loginForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+    var message = document.getElementById("loginMessage");
+    var btn = document.getElementById("loginBtn");
+    btn.disabled = true;
+
+    try {
+        var res = await fetch("/auth/login", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                email: document.getElementById("loginEmail").value.trim(),
+                password: document.getElementById("loginPassword").value
+            })
+        });
+        var data = await res.json().catch(function () { return {}; });
+
+        if (!res.ok) {
+            message.textContent = "❌ " + (typeof data.detail === "string" ? data.detail : "Login failed.");
+            message.className = "auth-message error";
+            btn.disabled = false;
+            return;
+        }
+
+        message.textContent = "✅ Login successful!";
+        message.className = "auth-message success";
+        setTimeout(function () { goHome(data.user.role); }, 400);
+    } catch (e) {
+        message.textContent = "❌ Cannot reach the server. Please try again.";
+        message.className = "auth-message error";
+        btn.disabled = false;
+    }
+});
+</script>
+</body>
+</html>

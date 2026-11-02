@@ -1,0 +1,502 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Employee Portal | HR Analytics</title>
+
+    <link rel="stylesheet" href="style.css">
+<script src="auth.js" data-role="Employee"></script>
+</head>
+
+<body>
+
+<div class="employee-page">
+
+    <div class="employee-header">
+
+        <div>
+            <h1>Employee Risk Assessment</h1>
+            <p>AI-Powered Employee Attrition Prediction System</p>
+        </div>
+
+        <button onclick="logout()" class="logout-btn">
+            Logout
+        </button>
+
+    </div>
+
+
+    <div class="employee-welcome">
+
+        <h2>
+            Welcome, <span id="employeeName">Employee</span> 👋
+        </h2>
+
+        <p>
+            Complete the form below to analyze your employee attrition risk.
+        </p>
+
+    </div>
+
+
+    <div class="employee-content">
+
+
+        <!-- ASSESSMENT FORM -->
+
+        <div class="assessment-card">
+
+            <h2>🧠 Risk Assessment</h2>
+
+            <p class="form-description">
+                Enter your current work-related information.
+                The AI model will estimate your attrition risk.
+            </p>
+
+
+            <form id="employeeRiskForm">
+
+
+                <div class="form-group">
+
+                    <label for="age">
+                        Age
+                    </label>
+
+                    <input
+                        type="number"
+                        id="age"
+                        min="18"
+                        max="70"
+                        placeholder="Enter your age"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="monthlyIncome">
+                        Monthly Income
+                    </label>
+
+                    <input
+                        type="number"
+                        id="monthlyIncome"
+                        min="0"
+                        placeholder="Enter monthly income"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="yearsAtCompany">
+                        Years at Company
+                    </label>
+
+                    <input
+                        type="number"
+                        id="yearsAtCompany"
+                        min="0"
+                        max="50"
+                        placeholder="Years at company"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="jobSatisfaction">
+                        Job Satisfaction
+                    </label>
+
+                    <select id="jobSatisfaction" required>
+
+                        <option value="">
+                            Select satisfaction
+                        </option>
+
+                        <option value="1">
+                            1 - Low
+                        </option>
+
+                        <option value="2">
+                            2 - Medium Low
+                        </option>
+
+                        <option value="3">
+                            3 - Medium High
+                        </option>
+
+                        <option value="4">
+                            4 - High
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="jobLevel">
+                        Job Level
+                    </label>
+
+                    <select id="jobLevel" required>
+
+                        <option value="">
+                            Select job level
+                        </option>
+
+                        <option value="1">
+                            Level 1
+                        </option>
+
+                        <option value="2">
+                            Level 2
+                        </option>
+
+                        <option value="3">
+                            Level 3
+                        </option>
+
+                        <option value="4">
+                            Level 4
+                        </option>
+
+                        <option value="5">
+                            Level 5
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="overtime">
+                        Overtime
+                    </label>
+
+                    <select id="overtime" required>
+
+                        <option value="">
+                            Select option
+                        </option>
+
+                        <option value="Yes">
+                            Yes
+                        </option>
+
+                        <option value="No">
+                            No
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="predict-btn"
+                >
+                    🤖 Predict My Attrition Risk
+                </button>
+
+            </form>
+
+        </div>
+
+
+
+        <!-- RESULT -->
+
+        <div
+            class="employee-result-card"
+            id="resultCard"
+        >
+
+            <div class="result-icon">
+                🤖
+            </div>
+
+            <h2>AI Prediction</h2>
+
+            <p class="result-placeholder">
+                Submit the assessment form to see your AI-powered
+                attrition prediction.
+            </p>
+
+
+            <div
+                id="predictionResult"
+                class="prediction-result"
+            >
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const API_BASE_URL = "";
+
+
+/* =========================================
+   PREDICTION
+========================================= */
+
+document
+    .getElementById("employeeRiskForm")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const age =
+                Number(
+                    document.getElementById(
+                        "age"
+                    ).value
+                );
+
+
+            const monthlyIncome =
+                Number(
+                    document.getElementById(
+                        "monthlyIncome"
+                    ).value
+                );
+
+
+            const yearsAtCompany =
+                Number(
+                    document.getElementById(
+                        "yearsAtCompany"
+                    ).value
+                );
+
+
+            const jobSatisfaction =
+                Number(
+                    document.getElementById(
+                        "jobSatisfaction"
+                    ).value
+                );
+
+
+            const jobLevel =
+                Number(
+                    document.getElementById(
+                        "jobLevel"
+                    ).value
+                );
+
+
+            const overtime =
+                document.getElementById(
+                    "overtime"
+                ).value;
+
+
+            const result =
+                document.getElementById(
+                    "predictionResult"
+                );
+
+
+            result.innerHTML =
+                "<p>⏳ AI is analyzing your information...</p>";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_BASE_URL}/predict`,
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                Age: age,
+
+                                MonthlyIncome:
+                                    monthlyIncome,
+
+                                YearsAtCompany:
+                                    yearsAtCompany,
+
+                                JobSatisfaction:
+                                    jobSatisfaction,
+
+                                JobLevel:
+                                    jobLevel,
+
+                                OverTime:
+                                    overtime
+
+                            })
+
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Prediction API failed."
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Employee prediction:",
+                    data
+                );
+
+
+                const prediction =
+                    data.prediction ||
+                    data.Prediction ||
+                    "Unknown";
+
+
+                const riskPercentage =
+                    data.risk_percentage ??
+                    data.riskPercentage ??
+                    0;
+
+
+                const riskLevel =
+                    data.risk_level ||
+                    data.riskLevel ||
+                    "Unknown";
+
+
+                let riskClass =
+                    "low-risk";
+
+
+                if (
+                    riskLevel.toLowerCase()
+                    === "high"
+                ) {
+
+                    riskClass =
+                        "high-risk";
+
+                }
+                else if (
+                    riskLevel.toLowerCase()
+                    === "medium"
+                ) {
+
+                    riskClass =
+                        "medium-risk";
+
+                }
+
+
+                result.innerHTML = `
+
+                    <div class="result-box ${riskClass}">
+
+                        <h3>
+                            Prediction Result
+                        </h3>
+
+                        <div class="risk-percentage">
+                            ${riskPercentage}%
+                        </div>
+
+                        <div class="risk-level">
+                            ${riskLevel}
+                        </div>
+
+                        <p>
+                            ${prediction === "Yes"
+                                ? "⚠️ Employee may leave the company."
+                                : "✅ Employee is predicted to stay with the company."
+                            }
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Prediction error:",
+                    error
+                );
+
+
+                result.innerHTML = `
+
+                    <div class="result-box high-risk">
+
+                        <h3>
+                            ❌ Prediction Failed
+                        </h3>
+
+                        <p>
+                            Unable to connect to the AI
+                            prediction server.
+                        </p>
+
+                        <p>
+                            Make sure FastAPI backend
+                            is running.
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+    );
+
+
+
+
+</script>
+
+</body>
+
+</html>

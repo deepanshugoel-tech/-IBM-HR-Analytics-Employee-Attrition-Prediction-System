@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: hr-analytics
+    runtime: docker
+    plan: free            # shap + scikit-learn need RAM; if it crashes (out of memory) use "starter"
+    healthCheckPath: /health
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: HR_INVITE_CODE
+        sync: false        # you type this in the Render dashboard
+      - key: DATABASE_URL
+        sync: false        # hosted Postgres/MySQL URL (see README_DEPLOY.md)
+      - key: BOOTSTRAP_HR_EMAIL
+        sync: false
+      - key: BOOTSTRAP_HR_PASSWORD
+        sync: false

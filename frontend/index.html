@@ -1,0 +1,3890 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HR Analytics & Attrition Prediction System</title>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <script src="auth.js" data-role="HR"></script>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                HR
+            </div>
+
+            <div>
+                <h2>HR Analytics</h2>
+                <span>AI Powered System</span>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+           
+
+            <a href="" class="nav-link active">
+                <span>📊</span>
+                Dashboard
+            </a>
+             <a href="#employee-search" class="nav-link">
+                <span>🔎</span>
+                 Employee Search
+             </a>
+
+            <a href="#action-center" class="nav-link">
+                <span>⚡</span>
+                HR Action Center
+            </a>
+              
+            <a href="#analytics" class="nav-link">
+                <span>📈</span>
+                HR Analytics
+            </a>
+
+            <a href="#prediction" class="nav-link">
+                <span>🤖</span>
+                ML Prediction
+            </a>
+
+            <a href="#models" class="nav-link">
+                <span>🧠</span>
+                Model Performance
+            </a>
+
+            <a href="#sql" class="nav-link">
+                <span>🗄️</span>
+                SQL Analytics
+            </a>
+
+            <a href="#insights" class="nav-link">
+                <span>💡</span>
+                HR Insights
+            </a>
+
+            <a href="#about" class="nav-link">
+                <span>ℹ️</span>
+                About Project
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+
+                <div>
+
+                    <strong>
+                        System Status
+                    </strong>
+
+                    <small>
+                        All systems operational
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+
+        <!-- ================= TOP BAR ================= -->
+
+        <header class="topbar">
+
+            <div>
+
+                <p class="topbar-small">
+                    AI-Powered HR Management
+                </p>
+
+                <h1>
+                    Employee Analytics Dashboard
+                </h1>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div class="date-box">
+
+                    <span>
+                        📅
+                    </span>
+
+                    <span id="currentDate">
+                        Loading...
+                    </span>
+
+                </div>
+
+
+                <div class="profile">
+
+    <div class="profile-avatar">
+        D
+    </div>
+
+    <div>
+        <strong id="hrName">
+            HR Administrator
+        </strong>
+
+        <small>
+            HR Administrator
+        </small>
+    </div>
+
+    <button
+        type="button"
+        class="logout-btn"
+        onclick="logout()"
+    >
+        🚪 Logout
+    </button>
+
+</div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="dashboard" class="page-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        OVERVIEW
+                    </p>
+
+                    <h2>
+                        HR Dashboard
+                    </h2>
+
+                    <p>
+                        Monitor employee statistics, attrition trends and
+                        workforce performance from one place.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- KPI CARDS -->
+
+            <div class="kpi-grid">
+
+
+                <div class="kpi-card">
+
+                    <div class="kpi-icon blue">
+                        👥
+                    </div>
+
+                    <div class="kpi-info">
+
+                        <span>
+                            Total Employees
+                        </span>
+
+                            <h3 id="totalEmployees">1,470</h3>
+
+                        <small>
+                            Employees in dataset
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="kpi-card">
+
+                    <div class="kpi-icon red">
+                        📉
+                    </div>
+
+                    <div class="kpi-info">
+
+                        <span>
+                            Employees Left
+                        </span>
+
+                            <h3 id="employeesLeft">237</h3>
+
+                        <small>
+                            Recorded attrition
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="kpi-card">
+
+                    <div class="kpi-icon orange">
+                        ⚠️
+                    </div>
+
+                    <div class="kpi-info">
+
+                        <span>
+                            Attrition Rate
+                        </span>
+
+                    
+                            <h3 id="attritionRate">16.1%</h3>
+                        
+
+                        <small>
+                            Overall employee attrition
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="kpi-card">
+
+                    <div class="kpi-icon green">
+                        💰
+                    </div>
+
+                    <div class="kpi-info">
+
+                        <span>
+                            Avg Monthly Income
+                        </span>
+
+                            <h3 id="avgIncome">$6.5K</h3>
+                    
+
+                        <small>
+                            Average employee income
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- DASHBOARD CHARTS -->
+
+            <div class="chart-grid">
+
+
+                <div class="chart-card large">
+
+                    <div class="chart-header">
+
+                        <div>
+
+                            <h3>
+                                Department-wise Attrition
+                            </h3>
+
+                            <p>
+                                Employee attrition across departments
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="chart-container">
+
+                        <canvas id="departmentChart"></canvas>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="chart-card">
+
+                    <div class="chart-header">
+
+                        <div>
+
+                            <h3>
+                                Attrition Distribution
+                            </h3>
+
+                            <p>
+                                Employees staying vs leaving
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="chart-container">
+
+                        <canvas id="attritionChart"></canvas>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+        <!-- ================= HIGH-RISK EMPLOYEES ================= -->
+
+<div class="table-card high-risk-card">
+
+    <div class="table-header">
+
+        <div>
+            <p class="section-label">
+                AI RISK MONITORING
+            </p>
+
+            <h3>
+                🚨 High-Risk Employees
+            </h3>
+
+            <p>
+                Employees with elevated predicted attrition risk
+                requiring HR attention.
+            </p>
+        </div>
+
+        <div class="high-risk-summary">
+            <span class="high-risk-count" id="highRiskCount">
+                3
+            </span>
+
+            <small>
+                High Risk
+            </small>
+        </div>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Employee</th>
+                    <th>Age</th>
+                    <th>Monthly Income</th>
+                    <th>Overtime</th>
+                    <th>Risk</th>
+                    <th>Risk Level</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody id="highRiskEmployeesBody">
+
+                <!-- Temporary demo data -->
+                
+                <tr>
+
+                    <td>
+                        <strong>Employee 101</strong>
+                    </td>
+
+                    <td>
+                        28
+                    </td>
+
+                    <td>
+                        ₹3,500
+                    </td>
+
+                    <td>
+                        <span class="overtime-badge">
+                            Yes
+                        </span>
+                    </td>
+
+                    <td>
+                        <strong>
+                            82%
+                        </strong>
+                    </td>
+
+                    <td>
+                        <span class="risk-badge high">
+                            🔴 High
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <strong>Employee 245</strong>
+                    </td>
+
+                    <td>
+                        31
+                    </td>
+
+                    <td>
+                        ₹4,000
+                    </td>
+
+                    <td>
+                        <span class="overtime-badge">
+                            Yes
+                        </span>
+                    </td>
+
+                    <td>
+                        <strong>
+                            76%
+                        </strong>
+                    </td>
+
+                    <td>
+                        <span class="risk-badge high">
+                            🔴 High
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <strong>Employee 389</strong>
+                    </td>
+
+                    <td>
+                        26
+                    </td>
+
+                    <td>
+                        ₹3,200
+                    </td>
+
+                    <td>
+                        <span class="overtime-badge">
+                            Yes
+                        </span>
+                    </td>
+
+                    <td>
+                        <strong>
+                            71%
+                        </strong>
+                    </td>
+
+                    <td>
+                        <span class="risk-badge high">
+                            🔴 High
+                        </span>
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+<div class="table-footer">
+        <p id="showing">Showing top 20</p>
+        <button type="button" id="viewAllBtn" class="view-all-btn">View All</button>
+    </div>
+</div>
+
+
+<!-- ================= EMPLOYEE SEARCH ================= -->
+
+<section id="employee-search" class="page-section">
+
+    <div class="section-heading">
+
+        <div>
+
+            <p class="section-label">
+                EMPLOYEE MANAGEMENT
+            </p>
+
+            <h2>
+                Employee Search
+            </h2>
+
+            <p>
+                Search and filter employees using department, job role,
+                gender, overtime and attrition status.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= SEARCH FILTERS ================= -->
+
+    <div class="prediction-card employee-search-card">
+
+        <div class="card-title">
+
+            <div class="card-title-icon">
+                🔎
+            </div>
+
+            <div>
+
+                <h3>
+                    Search Employees
+                </h3>
+
+                <p>
+                    Apply filters to find specific employees.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- DEPARTMENT -->
+
+            <div class="form-group">
+
+                <label>
+                    Department
+                </label>
+
+                <select id="searchDepartment">
+
+                    <option value="All">
+                        All Departments
+                    </option>
+
+                    <option value="Sales">
+                        Sales
+                    </option>
+
+                    <option value="Research & Development">
+                        Research & Development
+                    </option>
+
+                    <option value="Human Resources">
+                        Human Resources
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- JOB ROLE -->
+
+            <div class="form-group">
+
+                <label>
+                    Job Role
+                </label>
+
+                <select id="searchJobRole">
+
+                    <option value="All">
+                        All Job Roles
+                    </option>
+
+                    <option value="Sales Executive">
+                        Sales Executive
+                    </option>
+
+                    <option value="Research Scientist">
+                        Research Scientist
+                    </option>
+
+                    <option value="Laboratory Technician">
+                        Laboratory Technician
+                    </option>
+
+                    <option value="Manufacturing Director">
+                        Manufacturing Director
+                    </option>
+
+                    <option value="Healthcare Representative">
+                        Healthcare Representative
+                    </option>
+
+                    <option value="Manager">
+                        Manager
+                    </option>
+
+                    <option value="Sales Representative">
+                        Sales Representative
+                    </option>
+
+                    <option value="Research Director">
+                        Research Director
+                    </option>
+
+                    <option value="Human Resources">
+                        Human Resources
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- GENDER -->
+
+            <div class="form-group">
+
+                <label>
+                    Gender
+                </label>
+
+                <select id="searchGender">
+
+                    <option value="All">
+                        All Genders
+                    </option>
+
+                    <option value="Male">
+                        Male
+                    </option>
+
+                    <option value="Female">
+                        Female
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- OVERTIME -->
+
+            <div class="form-group">
+
+                <label>
+                    OverTime
+                </label>
+
+                <select id="searchOvertime">
+
+                    <option value="All">
+                        All
+                    </option>
+
+                    <option value="Yes">
+                        Yes
+                    </option>
+
+                    <option value="No">
+                        No
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ATTRITION -->
+
+            <div class="form-group">
+
+                <label>
+                    Attrition
+                </label>
+
+                <select id="searchAttrition">
+
+                    <option value="All">
+                        All
+                    </option>
+
+                    <option value="Yes">
+                        Left Company
+                    </option>
+
+                    <option value="No">
+                        Currently Working
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+        <div style="display:flex; gap:12px; margin-top:20px;">
+
+            <button
+                type="button"
+                class="predict-button"
+                id="searchEmployeesBtn"
+            >
+                🔎 Search Employees
+            </button>
+
+            <button
+                type="button"
+                class="clear-history-btn"
+                id="resetEmployeeSearchBtn"
+            >
+                ↻ Reset
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= SEARCH RESULT ================= -->
+
+    <div class="table-card">
+
+        <div class="table-header">
+
+            <div>
+
+                <p class="section-label">
+                    SEARCH RESULTS
+                </p>
+
+                <h3>
+                    Employee Records
+                </h3>
+
+                <p>
+                    Employees matching the selected filters.
+                </p>
+
+            </div>
+
+
+            <div class="high-risk-summary">
+
+                <span
+                    class="high-risk-count"
+                    id="employeeSearchCount"
+                >
+                    1470
+                </span>
+
+                <small>
+                    Employees Found
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Employee
+                        </th>
+
+                        <th>
+                            Age
+                        </th>
+
+                        <th>
+                            Department
+                        </th>
+
+                        <th>
+                            Job Role
+                        </th>
+
+                        <th>
+                            Gender
+                        </th>
+
+                        <th>
+                            Overtime
+                        </th>
+
+                        <th>
+                            Monthly Income
+                        </th>
+
+                        <th>
+                            Attrition
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="employeeSearchBody">
+
+                    <tr>
+
+                        <td
+                            colspan="8"
+                            style="text-align:center;"
+                        >
+                            Click "Search Employees" to load employee records.
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+        <!-- ================= HR ANALYTICS ================= -->
+
+        <section id="analytics" class="page-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        ANALYTICS
+                    </p>
+
+                    <h2>
+                        HR Analytics
+                    </h2>
+
+                    <p>
+                        Explore employee demographics, job roles, salaries,
+                        satisfaction and other HR factors.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="chart-grid">
+
+
+                <!-- JOB ROLE -->
+
+                <div class="chart-card">
+
+                    <div class="chart-header">
+
+                        <div>
+
+                            <h3>
+                                Job Role Analysis
+                            </h3>
+
+                            <p>
+                                Employees across different roles
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="chart-container">
+
+                        <canvas id="jobRoleChart"></canvas>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- GENDER -->
+
+                <div class="chart-card">
+
+                    <div class="chart-header">
+
+                        <div>
+
+                            <h3>
+                                Gender Distribution
+                            </h3>
+
+                            <p>
+                                Employee distribution by gender
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="chart-container">
+
+                        <canvas id="genderChart"></canvas>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- AGE -->
+
+                <div class="chart-card">
+
+                    <div class="chart-header">
+
+                        <div>
+
+                            <h3>
+                                Age Distribution
+                            </h3>
+
+                            <p>
+                                Employee age groups
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="chart-container">
+
+                        <canvas id="ageChart"></canvas>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- SATISFACTION -->
+
+                <div class="chart-card">
+
+                    <div class="chart-header">
+
+                        <div>
+
+                            <h3>
+                                Job Satisfaction
+                            </h3>
+
+                            <p>
+                                Employee satisfaction levels
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="chart-container">
+
+                        <canvas id="satisfactionChart"></canvas>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ================= FEATURE IMPORTANCE ================= -->
+
+            <div class="chart-card large">
+
+                <div class="chart-header">
+
+                    <div>
+
+                        <h3>
+                            Top 10 Factors Influencing Attrition
+                        </h3>
+
+                        <p>
+                            Most important features identified by the
+                            Random Forest model
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="chart-container">
+
+                    <canvas id="featureImportanceChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ANALYTICS TABLE -->
+
+            <div class="table-card">
+
+                <div class="table-header">
+
+                    <div>
+
+                        <h3>
+                            HR Analytics Factors
+                        </h3>
+
+                        <p>
+                            Important factors analyzed in the project
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Factor
+                                </th>
+
+                                <th>
+                                    Analysis
+                                </th>
+
+                                <th>
+                                    Business Importance
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>
+                                    Age
+                                </td>
+
+                                <td>
+                                    Age-wise attrition analysis
+                                </td>
+
+                                <td>
+                                    Identifies high-risk age groups
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Monthly Income
+                                </td>
+
+                                <td>
+                                    Salary and attrition relationship
+                                </td>
+
+                                <td>
+                                    Helps identify compensation issues
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Job Satisfaction
+                                </td>
+
+                                <td>
+                                    Satisfaction level analysis
+                                </td>
+
+                                <td>
+                                    Identifies workplace dissatisfaction
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Job Role
+                                </td>
+
+                                <td>
+                                    Role-wise employee attrition
+                                </td>
+
+                                <td>
+                                    Identifies high-risk roles
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    OverTime
+                                </td>
+
+                                <td>
+                                    Overtime and attrition relationship
+                                </td>
+
+                                <td>
+                                    Helps identify workload problems
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    Years at Company
+                                </td>
+
+                                <td>
+                                    Employee experience analysis
+                                </td>
+
+                                <td>
+                                    Identifies retention patterns
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+<!-- ================= HR ACTION CENTER ================= -->
+<section id="action-center" class="page-section">
+    <div class="section-heading">
+        <div>
+            <p class="section-label">RETENTION & STRATEGY</p>
+            <h2>⚡ HR Action Center</h2>
+            <p>Model-scored retention queue with practical, reviewable HR follow-up suggestions.</p>
+        </div>
+        <button type="button" class="action-refresh-btn" id="refreshActionCenter">↻ Refresh queue</button>
+    </div>
+
+    <div class="action-kpi-grid">
+        <div class="action-kpi-card"><span>Total analyzed</span><strong id="actionTotalCount">—</strong><small>Dataset employees</small></div>
+        <div class="action-kpi-card action-high"><span>High risk</span><strong id="actionHighCount">—</strong><small>Priority review</small></div>
+        <div class="action-kpi-card action-medium"><span>Medium risk</span><strong id="actionMediumCount">—</strong><small>Engagement follow-up</small></div>
+        <div class="action-kpi-card action-low"><span>Reviewed</span><strong id="actionReviewedCount">0</strong><small>Saved in this browser</small></div>
+    </div>
+
+    <div class="action-controls">
+        <input type="search" id="actionSearch" placeholder="Search employee name, ID, department or role..." oninput="filterActionTable()" aria-label="Search HR action queue">
+        <select id="riskFilter" onchange="filterActionTable()" aria-label="Filter by risk">
+            <option value="ALL">All risk levels</option><option value="HIGH">High risk</option><option value="MEDIUM">Medium risk</option><option value="LOW">Low risk</option>
+        </select>
+        <select id="actionStatusFilter" onchange="filterActionTable()" aria-label="Filter by review status">
+            <option value="ALL">All action statuses</option><option value="PENDING">Pending review</option><option value="REVIEWED">Reviewed</option>
+        </select>
+        <button type="button" id="exportActionCenter" class="action-secondary-btn">Export CSV</button>
+    </div>
+
+    <div class="table-card action-table-card">
+        <div class="table-header">
+            <div><h3>Employee Retention Queue</h3><p id="actionQueueSubtitle">Loading model-scored employees...</p></div>
+            <span id="actionLastUpdated" class="action-last-updated">Not loaded</span>
+        </div>
+        <div class="table-wrapper">
+            <table class="action-table">
+                <thead><tr>
+                    <th>Employee</th><th>Department / Role</th><th>Risk Score</th><th>Risk Indicators</th><th>Recommended HR Action</th><th>Priority</th><th>Action Status</th>
+                </tr></thead>
+                <tbody id="actionCenterTableBody"><tr><td colspan="7" class="action-empty">Open HR Action Center to load employee data.</td></tr></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="action-view-more-wrap" id="actionViewMoreWrap" style="display:none;">
+        <button type="button" class="action-view-more-btn" id="actionViewMoreButton">View more</button>
+    </div>
+    <p class="action-footnote">Reviewed status is saved in this browser using local storage. It is not yet a central MySQL workflow. HR recommendations are decision-support suggestions and must not be used as the sole basis for employment decisions.</p>
+</section>
+
+<!-- ================= ML PREDICTION ================= -->
+
+        <section id="prediction" class="page-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        ARTIFICIAL INTELLIGENCE
+                    </p>
+
+                    <h2>
+                        Employee Attrition Prediction
+                    </h2>
+
+                    <p>
+                        Use machine learning to estimate whether an employee
+                        may be at risk of leaving the organization.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="prediction-layout">
+
+
+                <!-- FORM -->
+
+                <div class="prediction-card">
+
+                    <div class="card-title">
+
+                        <div class="card-title-icon">
+                            🤖
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Employee Information
+                            </h3>
+
+                            <p>
+                                Enter employee details for prediction
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <form id="predictionForm">
+
+
+                        <div class="form-grid">
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Age
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="age"
+                                    placeholder="e.g. 30"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Monthly Income
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="income"
+                                    placeholder="e.g. 5000"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Years at Company
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="yearsCompany"
+                                    placeholder="e.g. 5"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Job Satisfaction
+                                </label>
+
+                                <select id="satisfaction">
+
+                                    <option value="1">
+                                        1 - Low
+                                    </option>
+
+                                    <option value="2">
+                                        2 - Medium
+                                    </option>
+
+                                    <option value="3" selected>
+                                        3 - High
+                                    </option>
+
+                                    <option value="4">
+                                        4 - Very High
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    OverTime
+                                </label>
+
+                                <select id="overtime">
+
+                                    <option value="Yes">
+                                        Yes
+                                    </option>
+
+                                    <option value="No" selected>
+                                        No
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Job Level
+                                </label>
+
+                                <select id="jobLevel">
+
+                                    <option value="1">
+                                        Level 1
+                                    </option>
+
+                                    <option value="2" selected>
+                                        Level 2
+                                    </option>
+
+                                    <option value="3">
+                                        Level 3
+                                    </option>
+
+                                    <option value="4">
+                                        Level 4
+                                    </option>
+
+                                    <option value="5">
+                                        Level 5
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <button
+                            type="submit"
+                            class="predict-button"
+                        >
+                            🔮 Predict Attrition Risk
+                        </button>
+
+
+                    </form>
+
+                </div>
+
+
+
+                <!-- RESULT -->
+
+                <div class="prediction-result">
+
+                    <div class="result-icon">
+                        🧠
+                    </div>
+
+                    <h3>
+                        Prediction Result
+                    </h3>
+
+                    <p id="predictionMessage">
+                        Enter employee information and click
+                        "Predict Attrition Risk".
+                    </p>
+
+
+                    <div
+                        class="risk-score"
+                        id="riskScore"
+                    >
+                        --
+                    </div>
+
+
+                    <div
+                        class="risk-label"
+                        id="riskLabel"
+                    >
+                        Waiting for prediction
+                    </div>
+
+
+                    <div class="risk-bar">
+
+                        <div
+                            class="risk-progress"
+                            id="riskProgress"
+                        ></div>
+
+                    </div>
+
+
+                    <!-- ================= WHY THIS PREDICTION ================= -->
+
+                    <div
+                        class="prediction-explanation"
+                        id="predictionExplanation"
+                    >
+
+                        <h4>
+                            Why this prediction?
+                        </h4>
+
+                        <p id="explanationText">
+                            Enter employee details and click
+                            "Predict Attrition Risk" to see the
+                            key factors associated with this prediction.
+                        </p>
+
+
+                        <div class="explanation-factors">
+
+
+                            <div class="factor-item">
+
+                                <span>
+                                    ⏰ Overtime
+                                </span>
+
+                                <strong id="explanationOvertime">
+                                    -
+                                </strong>
+
+                            </div>
+
+
+
+                            <div class="factor-item">
+
+                                <span>
+                                    💰 Monthly Income
+                                </span>
+
+                                <strong id="explanationIncome">
+                                    -
+                                </strong>
+
+                            </div>
+
+
+
+                            <div class="factor-item">
+
+                                <span>
+                                    🏢 Years at Company
+                                </span>
+
+                                <strong id="explanationYears">
+                                    -
+                                </strong>
+
+                            </div>
+
+
+
+                            <div class="factor-item">
+
+                                <span>
+                                    😊 Job Satisfaction
+                                </span>
+
+                                <strong id="explanationSatisfaction">
+                                    -
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <small>
+                        Powered by Real-Time Random Forest
+                        Machine Learning API.
+                    </small>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+<!-- ================= PREDICTION HISTORY ================= -->
+
+<div class="table-card prediction-history-card">
+
+    <div class="table-header">
+
+        <div>
+            <p class="section-label">PREDICTION RECORDS</p>
+
+            <h3>
+                Prediction History
+            </h3>
+
+            <p>
+                Previously generated employee attrition predictions.
+            </p>
+        </div>
+
+        <button
+            type="button"
+            id="clearHistoryBtn"
+            class="clear-history-btn"
+        >
+            🗑️ Clear History
+        </button>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Time</th>
+                    <th>Age</th>
+                    <th>Income</th>
+                    <th>Overtime</th>
+                    <th>Years</th>
+                    <th>Prediction</th>
+                    <th>Risk</th>
+                    <th>Risk Level</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="predictionHistoryBody">
+
+                <tr>
+                    <td colspan="8" style="text-align:center;">
+                        No predictions yet.
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+        <!-- ================= MODEL PERFORMANCE ================= -->
+
+        <section id="models" class="page-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        MACHINE LEARNING
+                    </p>
+
+                    <h2>
+                        Model Performance
+                    </h2>
+
+                    <p>
+                        Compare machine learning models used for employee
+                        attrition prediction.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================= MODEL CARDS ================= -->
+
+            <div class="model-grid">
+
+
+                <!-- LOGISTIC REGRESSION -->
+
+                <div class="model-card">
+
+                    <div class="model-number">
+                        01
+                    </div>
+
+                    <h3>
+                        Logistic Regression
+                    </h3>
+
+                    <p>
+                        A statistical classification model used as a
+                        baseline model for employee attrition prediction.
+                    </p>
+
+
+                    <div class="model-mini-stats">
+
+                        <div>
+                            <span>Accuracy</span>
+                            <strong>88.44%</strong>
+                        </div>
+
+                        <div>
+                            <span>Recall</span>
+                            <strong>46.15%</strong>
+                        </div>
+
+                        <div>
+                            <span>ROC-AUC</span>
+                            <strong>0.7917</strong>
+                        </div>
+
+                    </div>
+
+
+                    <span class="model-tag">
+                        Best Overall Model
+                    </span>
+
+                </div>
+
+
+
+                <!-- DECISION TREE -->
+
+                <div class="model-card">
+
+                    <div class="model-number">
+                        02
+                    </div>
+
+                    <h3>
+                        Decision Tree
+                    </h3>
+
+                    <p>
+                        A tree-based classification algorithm that creates
+                        decision rules from employee features.
+                    </p>
+
+
+                    <div class="model-mini-stats">
+
+                        <div>
+                            <span>Accuracy</span>
+                            <strong>77.55%</strong>
+                        </div>
+
+                        <div>
+                            <span>Recall</span>
+                            <strong>17.95%</strong>
+                        </div>
+
+                        <div>
+                            <span>ROC-AUC</span>
+                            <strong>0.5231</strong>
+                        </div>
+
+                    </div>
+
+
+                    <span class="model-tag">
+                        Classification Model
+                    </span>
+
+                </div>
+
+
+
+                <!-- RANDOM FOREST -->
+
+                <div class="model-card featured">
+
+                    <div class="model-number">
+                        03
+                    </div>
+
+                    <h3>
+                        Random Forest
+                    </h3>
+
+                    <p>
+                        An ensemble machine learning algorithm using multiple
+                        decision trees for employee attrition prediction.
+                    </p>
+
+
+                    <div class="model-mini-stats">
+
+                        <div>
+                            <span>Accuracy</span>
+                            <strong>87.76%</strong>
+                        </div>
+
+                        <div>
+                            <span>Precision</span>
+                            <strong>80.00%</strong>
+                        </div>
+
+                        <div>
+                            <span>ROC-AUC</span>
+                            <strong>0.7381</strong>
+                        </div>
+
+                    </div>
+
+
+                    <span class="model-tag">
+                        Highest Precision
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ================= MODEL COMPARISON ================= -->
+
+            <div class="table-card model-table">
+
+                <div class="table-header">
+
+                    <div>
+
+                        <h3>
+                            Model Comparison
+                        </h3>
+
+                        <p>
+                            Actual evaluation results from the machine
+                            learning training pipeline.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Model
+                                </th>
+
+                                <th>
+                                    Accuracy
+                                </th>
+
+                                <th>
+                                    Precision
+                                </th>
+
+                                <th>
+                                    Recall
+                                </th>
+
+                                <th>
+                                    F1 Score
+                                </th>
+
+                                <th>
+                                    ROC-AUC
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+
+                        <tbody>
+
+
+                            <!-- LOGISTIC REGRESSION -->
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        Logistic Regression
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        88.44%
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    58.06%
+                                </td>
+
+                                <td>
+                                    46.15%
+                                </td>
+
+                                <td>
+                                    51.43%
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        0.7917
+                                    </strong>
+                                </td>
+
+                            </tr>
+
+
+
+                            <!-- DECISION TREE -->
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        Decision Tree
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    77.55%
+                                </td>
+
+                                <td>
+                                    17.07%
+                                </td>
+
+                                <td>
+                                    17.95%
+                                </td>
+
+                                <td>
+                                    17.50%
+                                </td>
+
+                                <td>
+                                    0.5231
+                                </td>
+
+                            </tr>
+
+
+
+                            <!-- RANDOM FOREST -->
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        Random Forest
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        87.76%
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        80.00%
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    10.26%
+                                </td>
+
+                                <td>
+                                    18.18%
+                                </td>
+
+                                <td>
+                                    0.7381
+                                </td>
+
+                            </tr>
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================= CONFUSION MATRICES ================= -->
+
+            <div class="table-card">
+
+                <div class="table-header">
+
+                    <div>
+
+                        <h3>
+                            Confusion Matrix Comparison
+                        </h3>
+
+                        <p>
+                            Classification results obtained on the test
+                            dataset.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- LOGISTIC REGRESSION -->
+
+                <h4 class="confusion-title">
+                    Logistic Regression
+                </h4>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Actual / Predicted
+                                </th>
+
+                                <th>
+                                    Predicted Stay
+                                </th>
+
+                                <th>
+                                    Predicted Leave
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        Actual Stay
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        242
+                                    </strong>
+
+                                    <br>
+
+                                    True Negative
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        13
+                                    </strong>
+
+                                    <br>
+
+                                    False Positive
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        Actual Leave
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        21
+                                    </strong>
+
+                                    <br>
+
+                                    False Negative
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        18
+                                    </strong>
+
+                                    <br>
+
+                                    True Positive
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+
+                <!-- DECISION TREE -->
+
+                <h4 class="confusion-title">
+                    Decision Tree
+                </h4>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Actual / Predicted
+                                </th>
+
+                                <th>
+                                    Predicted Stay
+                                </th>
+
+                                <th>
+                                    Predicted Leave
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        Actual Stay
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        221
+                                    </strong>
+
+                                    <br>
+
+                                    True Negative
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        34
+                                    </strong>
+
+                                    <br>
+
+                                    False Positive
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        Actual Leave
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        32
+                                    </strong>
+
+                                    <br>
+
+                                    False Negative
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        7
+                                    </strong>
+
+                                    <br>
+
+                                    True Positive
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+
+                <!-- RANDOM FOREST -->
+
+                <h4 class="confusion-title">
+                    Random Forest
+                </h4>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Actual / Predicted
+                                </th>
+
+                                <th>
+                                    Predicted Stay
+                                </th>
+
+                                <th>
+                                    Predicted Leave
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        Actual Stay
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        254
+                                    </strong>
+
+                                    <br>
+
+                                    True Negative
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        1
+                                    </strong>
+
+                                    <br>
+
+                                    False Positive
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        Actual Leave
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        35
+                                    </strong>
+
+                                    <br>
+
+                                    False Negative
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        4
+                                    </strong>
+
+                                    <br>
+
+                                    True Positive
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================= MODEL EVALUATION SUMMARY ================= -->
+
+            <div class="table-card">
+
+                <div class="table-header">
+
+                    <div>
+
+                        <h3>
+                            Model Evaluation Summary
+                        </h3>
+
+                        <p>
+                            Comparison of the most important performance
+                            metrics.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Metric
+                                </th>
+
+                                <th>
+                                    Best Model
+                                </th>
+
+                                <th>
+                                    Score
+                                </th>
+
+                                <th>
+                                    Interpretation
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            <!-- ACCURACY -->
+
+                            <tr>
+
+                                <td>
+                                    Accuracy
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        Logistic Regression
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        88.44%
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    Highest overall percentage of correctly
+                                    classified employees.
+                                </td>
+
+                            </tr>
+
+
+
+                            <!-- PRECISION -->
+
+                            <tr>
+
+                                <td>
+                                    Precision
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        Random Forest
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        80.00%
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    Highest precision among the evaluated
+                                    models.
+                                </td>
+
+                            </tr>
+
+
+
+                            <!-- RECALL -->
+
+                            <tr>
+
+                                <td>
+                                    Recall
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        Logistic Regression
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        46.15%
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    Identifies more employees who actually
+                                    leave.
+                                </td>
+
+                            </tr>
+
+
+
+                            <!-- F1 -->
+
+                            <tr>
+
+                                <td>
+                                    F1 Score
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        Logistic Regression
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        51.43%
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    Best balance between precision and recall.
+                                </td>
+
+                            </tr>
+
+
+
+                            <!-- ROC-AUC -->
+
+                            <tr>
+
+                                <td>
+                                    ROC-AUC
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        Logistic Regression
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        0.7917
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    Strongest ability to distinguish employees
+                                    who stay and employees who leave.
+                                </td>
+
+                            </tr>
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ================= MODEL INSIGHT ================= -->
+
+            <div class="table-card">
+
+                <div class="table-header">
+
+                    <div>
+
+                        <h3>
+                            Model Selection Insight
+                        </h3>
+
+                        <p>
+                            Business interpretation of the model comparison.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="insight-content">
+
+                    <p>
+                        <strong>Logistic Regression</strong> achieved the
+                        highest accuracy of <strong>88.44%</strong> and the
+                        highest ROC-AUC of <strong>0.7917</strong>. It also
+                        achieved the highest recall and F1-score among the
+                        three evaluated models.
+                    </p>
+
+
+                    <p>
+                        <strong>Random Forest</strong> achieved the highest
+                        precision of <strong>80.00%</strong>. However, its
+                        recall was only <strong>10.26%</strong>, meaning that
+                        it missed many employees who actually left the
+                        organization.
+                    </p>
+
+
+                    <p>
+                        <strong>Decision Tree</strong> produced the lowest
+                        overall performance in the current experiment, with
+                        an accuracy of <strong>77.55%</strong> and ROC-AUC of
+                        <strong>0.5231</strong>.
+                    </p>
+
+
+                    <p>
+                        Based on the current evaluation,
+                        <strong>Logistic Regression</strong> provides the best
+                        overall balance for identifying potential employee
+                        attrition, while Random Forest remains useful when
+                        precision is the primary requirement.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ================= SQL ANALYTICS ================= -->
+
+        <section id="sql" class="page-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        DATABASE ANALYTICS
+                    </p>
+
+                    <h2>
+                        SQL Business Analysis
+                    </h2>
+
+                    <p>
+                        SQL is used to analyze employee records and
+                        generate useful business insights.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="sql-grid">
+
+
+                <div class="sql-card">
+
+                    <div class="sql-icon">
+                        👥
+                    </div>
+
+                    <h3>
+                        Employee Analysis
+                    </h3>
+
+                    <p>
+                        Analyze employee count, age, income,
+                        experience and department information.
+                    </p>
+
+                </div>
+
+
+
+                <div class="sql-card">
+
+                    <div class="sql-icon">
+                        📉
+                    </div>
+
+                    <h3>
+                        Attrition Analysis
+                    </h3>
+
+                    <p>
+                        Identify departments, roles and employee
+                        groups with higher attrition.
+                    </p>
+
+                </div>
+
+
+
+                <div class="sql-card">
+
+                    <div class="sql-icon">
+                        💰
+                    </div>
+
+                    <h3>
+                        Salary Analysis
+                    </h3>
+
+                    <p>
+                        Analyze salary levels and their relationship
+                        with employee retention.
+                    </p>
+
+                </div>
+
+
+
+                <div class="sql-card">
+
+                    <div class="sql-icon">
+                        ⭐
+                    </div>
+
+                    <h3>
+                        Performance Analysis
+                    </h3>
+
+                    <p>
+                        Analyze performance ratings and employee
+                        satisfaction levels.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="query-card">
+
+                <div class="query-header">
+
+                    <div>
+
+                        <span class="query-label">
+                            SQL EXAMPLE
+                        </span>
+
+                        <h3>
+                            Department Attrition Analysis
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+
+                <pre><code>SELECT
+    Department,
+    COUNT(*) AS Total_Employees,
+    SUM(CASE
+        WHEN Attrition = 'Yes' THEN 1
+        ELSE 0
+    END) AS Employees_Left
+FROM employees
+GROUP BY Department
+ORDER BY Employees_Left DESC;</code></pre>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ================= INSIGHTS ================= -->
+<!-- ================= HR INSIGHTS ================= -->
+
+<section id="insights" class="page-section">
+
+    <div class="section-heading">
+
+        <div>
+
+            <p class="section-label">
+                BUSINESS INTELLIGENCE
+            </p>
+
+            <h2>
+                HR Insights & Recommendations
+            </h2>
+
+            <p>
+                Data-driven insights and AI-supported recommendations
+                to help HR teams understand and reduce employee attrition.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= INSIGHT SUMMARY ================= -->
+
+    <div class="kpi-grid">
+
+        <div class="kpi-card">
+
+            <div class="kpi-icon red">
+                ⚠️
+            </div>
+
+            <div class="kpi-info">
+
+                <span>
+                    Overall Attrition
+                </span>
+
+                <h3>
+                    16.1%
+                </h3>
+
+                <small>
+                    237 employees left
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-icon orange">
+                ⏰
+            </div>
+
+            <div class="kpi-info">
+
+                <span>
+                    Key Risk Factor
+                </span>
+
+                <h3>
+                    Overtime
+                </h3>
+
+                <small>
+                    Monitor workload pressure
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-icon blue">
+                😊
+            </div>
+
+            <div class="kpi-info">
+
+                <span>
+                    Employee Wellbeing
+                </span>
+
+                <h3>
+                    Satisfaction
+                </h3>
+
+                <small>
+                    Monitor employee engagement
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-icon green">
+                🤖
+            </div>
+
+            <div class="kpi-info">
+
+                <span>
+                    AI Decision Support
+                </span>
+
+                <h3>
+                    Enabled
+                </h3>
+
+                <small>
+                    ML + SHAP explainability
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= KEY ATTRITION DRIVERS ================= -->
+
+    <div class="table-card">
+
+        <div class="table-header">
+
+            <div>
+
+                <p class="section-label">
+                    ATTRITION DRIVERS
+                </p>
+
+                <h3>
+                    Key Factors to Monitor
+                </h3>
+
+                <p>
+                    Important employee factors that HR teams should
+                    monitor when assessing attrition risk.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Factor
+                        </th>
+
+                        <th>
+                            Risk Indicator
+                        </th>
+
+                        <th>
+                            Business Impact
+                        </th>
+
+                        <th>
+                            HR Priority
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                ⏰ Overtime
+                            </strong>
+                        </td>
+
+                        <td>
+                            Frequent overtime
+                        </td>
+
+                        <td>
+                            May indicate excessive workload
+                            and employee burnout.
+                        </td>
+
+                        <td>
+                            <span class="model-tag">
+                                High
+                            </span>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                😊 Job Satisfaction
+                            </strong>
+                        </td>
+
+                        <td>
+                            Low satisfaction
+                        </td>
+
+                        <td>
+                            May indicate workplace dissatisfaction
+                            and engagement problems.
+                        </td>
+
+                        <td>
+                            <span class="model-tag">
+                                High
+                            </span>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                💰 Monthly Income
+                            </strong>
+                        </td>
+
+                        <td>
+                            Lower compensation
+                        </td>
+
+                        <td>
+                            Compensation concerns can contribute
+                            to retention challenges.
+                        </td>
+
+                        <td>
+                            <span class="model-tag">
+                                Medium
+                            </span>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                📈 Career Growth
+                            </strong>
+                        </td>
+
+                        <td>
+                            Limited progression
+                        </td>
+
+                        <td>
+                            Lack of career opportunities may reduce
+                            long-term employee retention.
+                        </td>
+
+                        <td>
+                            <span class="model-tag">
+                                Medium
+                            </span>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                🏢 Years at Company
+                            </strong>
+                        </td>
+
+                        <td>
+                            Employee tenure
+                        </td>
+
+                        <td>
+                            Helps HR understand employee lifecycle
+                            and retention patterns.
+                        </td>
+
+                        <td>
+                            <span class="model-tag">
+                                Medium
+                            </span>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= HR RECOMMENDATIONS ================= -->
+
+    <div class="insights-grid">
+
+
+        <div class="insight-card danger">
+
+            <div class="insight-icon">
+                🚨
+            </div>
+
+            <h3>
+                Identify High-Risk Employees
+            </h3>
+
+            <p>
+                Use the machine learning prediction system to identify
+                employees with elevated attrition probability and
+                prioritize them for HR review.
+            </p>
+
+            <strong>
+                Recommended Action:
+            </strong>
+
+            <p>
+                Conduct retention discussions and understand
+                employee concerns before taking action.
+            </p>
+
+        </div>
+
+
+
+        <div class="insight-card warning">
+
+            <div class="insight-icon">
+                ⏰
+            </div>
+
+            <h3>
+                Monitor Overtime
+            </h3>
+
+            <p>
+                Regular overtime can indicate workload pressure,
+                insufficient staffing or work-life balance concerns.
+            </p>
+
+            <strong>
+                Recommended Action:
+            </strong>
+
+            <p>
+                Review workload distribution and introduce
+                appropriate workload management practices.
+            </p>
+
+        </div>
+
+
+
+        <div class="insight-card success">
+
+            <div class="insight-icon">
+                ⭐
+            </div>
+
+            <h3>
+                Improve Job Satisfaction
+            </h3>
+
+            <p>
+                Employee satisfaction should be monitored regularly
+                to identify potential engagement problems.
+            </p>
+
+            <strong>
+                Recommended Action:
+            </strong>
+
+            <p>
+                Conduct employee feedback surveys and improve
+                workplace engagement initiatives.
+            </p>
+
+        </div>
+
+
+
+        <div class="insight-card info">
+
+            <div class="insight-icon">
+                💰
+            </div>
+
+            <h3>
+                Review Compensation
+            </h3>
+
+            <p>
+                Salary and compensation patterns can provide useful
+                signals when evaluating employee retention.
+            </p>
+
+            <strong>
+                Recommended Action:
+            </strong>
+
+            <p>
+                Review compensation fairness and benchmark salaries
+                for important roles.
+            </p>
+
+        </div>
+
+
+
+        <div class="insight-card purple">
+
+            <div class="insight-icon">
+                📈
+            </div>
+
+            <h3>
+                Strengthen Career Growth
+            </h3>
+
+            <p>
+                Employees may be more likely to remain engaged when
+                they have clear opportunities for professional growth.
+            </p>
+
+            <strong>
+                Recommended Action:
+            </strong>
+
+            <p>
+                Provide training, mentoring and clearly defined
+                career progression paths.
+            </p>
+
+        </div>
+
+
+
+        <div class="insight-card blue">
+
+            <div class="insight-icon">
+                🤖
+            </div>
+
+            <h3>
+                AI-Based HR Decisions
+            </h3>
+
+            <p>
+                Machine learning and SHAP explainability can support
+                HR managers in understanding employee-level risk.
+            </p>
+
+            <strong>
+                Recommended Action:
+            </strong>
+
+            <p>
+                Use predictions as decision-support information,
+                combined with HR judgement and employee feedback.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================= AI RETENTION STRATEGY ================= -->
+
+    <div class="table-card">
+
+        <div class="table-header">
+
+            <div>
+
+                <p class="section-label">
+                    AI-SUPPORTED STRATEGY
+                </p>
+
+                <h3>
+                    Employee Retention Strategy
+                </h3>
+
+                <p>
+                    Recommended HR actions based on analytics,
+                    machine learning and employee-level explanations.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="insight-content">
+
+            <p>
+
+                <strong>1. Early Risk Identification:</strong>
+
+                Use the attrition prediction model to identify
+                employees who may require additional HR attention.
+
+            </p>
+
+
+            <p>
+
+                <strong>2. Explain the Risk:</strong>
+
+                Use SHAP explainability to understand the factors
+                contributing to an individual employee's prediction.
+
+            </p>
+
+
+            <p>
+
+                <strong>3. Address Workload:</strong>
+
+                Monitor overtime and workload patterns to reduce
+                unnecessary work pressure.
+
+            </p>
+
+
+            <p>
+
+                <strong>4. Improve Employee Experience:</strong>
+
+                Regularly monitor satisfaction, engagement and
+                workplace feedback.
+
+            </p>
+
+
+            <p>
+
+                <strong>5. Support Career Development:</strong>
+
+                Provide employees with training, mentoring and
+                opportunities for career progression.
+
+            </p>
+
+
+            <p>
+
+                <strong>6. Data-Driven HR Decisions:</strong>
+
+                Combine machine learning predictions with HR
+                expertise, employee feedback and organizational context.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= BUSINESS IMPACT ================= -->
+
+    <!-- ================= BUSINESS IMPACT ================= -->
+
+<div class="chart-card large" style="margin-top: 20px;">
+
+    <div class="chart-header">
+
+        <div>
+
+            <h3>
+                Business Impact of Predictive HR Analytics
+            </h3>
+
+            <p>
+                How the system can support HR decision-making.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="insights-grid">
+
+        <div class="insight-card blue">
+
+            <div class="insight-icon">
+                🔍
+            </div>
+
+            <h3>
+                Early Detection
+            </h3>
+
+            <p>
+                Identify potential attrition risks before
+                employee departure occurs.
+            </p>
+
+        </div>
+
+
+        <div class="insight-card success">
+
+            <div class="insight-icon">
+                💡
+            </div>
+
+            <h3>
+                Explainable Decisions
+            </h3>
+
+            <p>
+                SHAP helps HR understand the important factors
+                behind individual predictions.
+            </p>
+
+        </div>
+
+
+        <div class="insight-card warning">
+
+            <div class="insight-icon">
+                🎯
+            </div>
+
+            <h3>
+                Targeted Retention
+            </h3>
+
+            <p>
+                HR teams can focus retention efforts on
+                employees who require attention.
+            </p>
+
+        </div>
+
+
+        <div class="insight-card purple">
+
+            <div class="insight-icon">
+                📊
+            </div>
+
+            <h3>
+                Data-Driven Strategy
+            </h3>
+
+            <p>
+                Analytics provides measurable information
+                for workforce planning and decision-making.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
+
+
+
+        <!-- ================= ABOUT ================= -->
+
+        <section id="about" class="page-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        PROJECT INFORMATION
+                    </p>
+
+                    <h2>
+                        About the Project
+                    </h2>
+
+                    <p>
+                        AI-Powered HR Analytics & Employee Attrition
+                        Prediction System.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="about-grid">
+
+
+                <div class="about-card">
+
+                    <h3>
+                        🎯 Project Objective
+                    </h3>
+
+                    <p>
+                        The main objective of this project is to analyze
+                        employee data, understand attrition patterns and
+                        use machine learning to predict potential employee
+                        attrition.
+                    </p>
+
+                </div>
+
+
+
+                <div class="about-card">
+
+                    <h3>
+                        📊 Dataset
+                    </h3>
+
+                    <p>
+                        IBM HR Analytics Employee Attrition dataset
+                        containing 1,470 employee records and multiple
+                        workforce-related features.
+                    </p>
+
+                </div>
+
+
+
+                <div class="about-card">
+
+                    <h3>
+                        🛠 Technologies Used
+                    </h3>
+
+                    <div class="technology-list">
+
+                        <span>
+                            Python
+                        </span>
+
+                        <span>
+                            Pandas
+                        </span>
+
+                        <span>
+                            NumPy
+                        </span>
+
+                        <span>
+                            Scikit-learn
+                        </span>
+
+                        <span>
+                            MySQL
+                        </span>
+
+                        <span>
+                            SQL
+                        </span>
+
+                        <span>
+                            Power BI
+                        </span>
+
+                        <span>
+                            HTML
+                        </span>
+
+                        <span>
+                            CSS
+                        </span>
+
+                        <span>
+                            JavaScript
+                        </span>
+
+                        <span>
+                            FastAPI
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="about-card">
+
+                    <h3>
+                        🧠 Machine Learning
+                    </h3>
+
+                    <p>
+                        The project evaluates Logistic Regression,
+                        Decision Tree and Random Forest using Accuracy,
+                        Precision, Recall, F1 Score and ROC-AUC metrics.
+                        Logistic Regression currently provides the best
+                        overall balance among the evaluated models.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- PROJECT PIPELINE -->
+
+            <div class="pipeline-card">
+
+                <h3>
+                    Project Architecture
+                </h3>
+
+
+                <div class="pipeline">
+
+
+                    <div class="pipeline-item">
+
+                        <span>
+                            01
+                        </span>
+
+                        <strong>
+                            Dataset
+                        </strong>
+
+                        <small>
+                            Employee Data
+                        </small>
+
+                    </div>
+
+
+                    <div class="pipeline-arrow">
+                        →
+                    </div>
+
+
+
+                    <div class="pipeline-item">
+
+                        <span>
+                            02
+                        </span>
+
+                        <strong>
+                            Python
+                        </strong>
+
+                        <small>
+                            EDA & Cleaning
+                        </small>
+
+                    </div>
+
+
+                    <div class="pipeline-arrow">
+                        →
+                    </div>
+
+
+
+                    <div class="pipeline-item">
+
+                        <span>
+                            03
+                        </span>
+
+                        <strong>
+                            Machine Learning
+                        </strong>
+
+                        <small>
+                            Attrition Prediction
+                        </small>
+
+                    </div>
+
+
+                    <div class="pipeline-arrow">
+                        →
+                    </div>
+
+
+
+                    <div class="pipeline-item">
+
+                        <span>
+                            04
+                        </span>
+
+                        <strong>
+                            MySQL
+                        </strong>
+
+                        <small>
+                            SQL Analytics
+                        </small>
+
+                    </div>
+
+
+                    <div class="pipeline-arrow">
+                        →
+                    </div>
+
+
+
+                    <div class="pipeline-item">
+
+                        <span>
+                            05
+                        </span>
+
+                        <strong>
+                            Power BI
+                        </strong>
+
+                        <small>
+                            Dashboard
+                        </small>
+
+                    </div>
+
+
+                    <div class="pipeline-arrow">
+                        →
+                    </div>
+
+
+
+                    <div class="pipeline-item">
+
+                        <span>
+                            06
+                        </span>
+
+                        <strong>
+                            Web App
+                        </strong>
+
+                        <small>
+                            HR Decision Support
+                        </small>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ================= FOOTER ================= -->
+
+        <footer class="footer">
+
+            <div>
+
+                <strong>
+                    AI-Powered HR Analytics & Employee Attrition
+                    Prediction System
+                </strong>
+
+                <p>
+                    Data Analytics • Machine Learning • SQL • Power BI
+                    • Web Technology
+                </p>
+
+            </div>
+
+
+            <div class="footer-right">
+
+                <span>
+                    Final Year Major Project
+                </span>
+
+                <span>
+                    © 2026
+                </span>
+
+            </div>
+
+        </footer>
+
+
+    </main>
+
+
+
+    <!-- JavaScript -->
+
+<script src="script.js"></script>
+
+
+
+</body>
+
+</html>
