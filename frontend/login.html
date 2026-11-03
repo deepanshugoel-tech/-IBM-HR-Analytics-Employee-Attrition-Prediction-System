@@ -12,7 +12,7 @@
         <div class="auth-logo">🤖</div>
         <h1>HR Analytics</h1>
         <p class="auth-subtitle">AI-Powered Employee Attrition Prediction System</p>
-        <h2>Login</h2>
+        <h2 id="loginTitle">Login</h2>
 
         <form id="loginForm">
             <label for="loginEmail">Email</label>
@@ -28,12 +28,24 @@
 
         <p class="auth-switch">
             Don't have an account?
-            <a href="register.html">Create Account</a>
+            <a href="register.html" id="registerLink">Create Account</a>
+        </p>
+        <p class="auth-switch" style="margin-top:12px;">
+            <a href="home.html">&larr; Back to company page</a>
         </p>
     </div>
 </div>
 
 <script>
+// Which door did the visitor use on the company page?
+var wanted = new URLSearchParams(window.location.search).get("role");
+wanted = wanted === "hr" ? "HR" : (wanted === "employee" ? "Employee" : "");
+if (wanted) {
+    document.getElementById("loginTitle").textContent = wanted + " Login";
+    document.title = "HR Analytics | " + wanted + " Login";
+    document.getElementById("registerLink").href = "register.html?role=" + wanted.toLowerCase();
+}
+
 function goHome(role) {
     window.location.replace(role === "HR" ? "index.html" : "employee.html");
 }
@@ -64,6 +76,15 @@ document.getElementById("loginForm").addEventListener("submit", async function (
 
         if (!res.ok) {
             message.textContent = "❌ " + (typeof data.detail === "string" ? data.detail : "Login failed.");
+            message.className = "auth-message error";
+            btn.disabled = false;
+            return;
+        }
+
+        if (wanted && data.user.role !== wanted) {
+            // Account exists but belongs to the other role: sign out and explain.
+            await fetch("/auth/logout", { method: "POST", credentials: "same-origin" }).catch(function () {});
+            message.textContent = "❌ This is a " + data.user.role + " account. Use the " + data.user.role + " Login on the company page.";
             message.className = "auth-message error";
             btn.disabled = false;
             return;

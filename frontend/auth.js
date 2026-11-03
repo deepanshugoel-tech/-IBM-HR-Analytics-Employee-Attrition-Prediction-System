@@ -46,7 +46,7 @@
 
     window.logout = function () {
         nativeFetch("/auth/logout", { method: "POST", credentials: "same-origin" })
-            .finally(function () { window.location.replace("login.html"); });
+            .finally(function () { window.location.replace("home.html"); });
     };
 
     // Back button after logout must not show a cached private page.

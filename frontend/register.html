@@ -44,6 +44,9 @@
             Already have an account?
             <a href="login.html">Login</a>
         </p>
+        <p class="auth-switch" style="margin-top:12px;">
+            <a href="home.html">&larr; Back to company page</a>
+        </p>
     </div>
 </div>
 
@@ -52,11 +55,17 @@ var roleSelect = document.getElementById("registerRole");
 var inviteWrap = document.getElementById("inviteWrap");
 var inviteInput = document.getElementById("registerInvite");
 
+var presetRole = new URLSearchParams(window.location.search).get("role");
+if (presetRole === "hr" || presetRole === "employee") {
+    roleSelect.value = presetRole === "hr" ? "HR" : "Employee";
+}
+
 roleSelect.addEventListener("change", function () {
     var isHR = roleSelect.value === "HR";
     inviteWrap.style.display = isHR ? "block" : "none";
     inviteInput.required = isHR;
 });
+roleSelect.dispatchEvent(new Event("change"));
 
 document.getElementById("registerForm").addEventListener("submit", async function (event) {
     event.preventDefault();

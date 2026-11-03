@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBM HR Analytics | People analytics for growing companies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+    --ink:#12324a;
+    --ink-2:#1d4766;
+    --paper:#f3f6f8;
+    --white:#ffffff;
+    --saffron:#f2a20c;
+    --saffron-dark:#c97f00;
+    --line:#d5dee5;
+    --muted:#52687a;
+    --danger:#b42318;
+    --head:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+    --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:var(--body);background:var(--paper);color:var(--ink);line-height:1.6;font-size:17px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--saffron);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:rgba(243,246,248,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.brand{font-family:var(--head);font-weight:800;font-size:21px;text-decoration:none;letter-spacing:-.3px}
+.brand i{font-style:normal;color:var(--saffron-dark)}
+.links{display:flex;gap:26px;list-style:none}
+.links a{text-decoration:none;font-weight:600;font-size:15px;color:var(--muted)}
+.links a:hover{color:var(--ink)}
+.nav-actions{display:flex;gap:10px}
+
+/* buttons */
+.btn{display:inline-block;padding:11px 20px;border-radius:8px;font:700 15px var(--body);text-decoration:none;border:2px solid var(--ink);cursor:pointer;transition:background .15s,color .15s}
+.btn-solid{background:var(--ink);color:var(--white)}
+.btn-solid:hover{background:var(--ink-2)}
+.btn-line{background:transparent;color:var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--white)}
+.btn-gold{background:var(--saffron);border-color:var(--saffron);color:#2a1c00}
+.btn-gold:hover{background:var(--saffron-dark);border-color:var(--saffron-dark);color:var(--white)}
+
+/* hero */
+.hero{padding:84px 0 72px}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.hero h1{font-family:var(--head);font-weight:800;font-size:clamp(36px,5.2vw,60px);line-height:1.05;letter-spacing:-1.5px}
+.hero p.lead{margin-top:22px;font-size:19px;color:var(--muted);max-width:30em}
+.cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+
+/* signature element: the attrition risk board */
+.board{background:var(--ink);color:var(--white);border-radius:14px;padding:26px;box-shadow:12px 12px 0 var(--saffron)}
+.board h3{font:700 15px var(--body);color:#b9cddd;margin-bottom:18px}
+.row{display:grid;grid-template-columns:96px 1fr 44px;gap:12px;align-items:center;margin-bottom:14px;font-size:15px}
+.track{height:12px;background:rgba(255,255,255,.12);border-radius:6px;overflow:hidden}
+.fill{height:100%;border-radius:6px;background:var(--saffron);width:0;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.fill.low{background:#6fcf97}
+.fill.high{background:#ff7a59}
+.board.go .fill{width:var(--w)}
+.row b{text-align:right;font-weight:700}
+.board small{display:block;margin-top:16px;color:#9db6c9;font-size:13px}
+
+/* sections */
+section.block{padding:76px 0}
+section.alt{background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+h2{font-family:var(--head);font-weight:800;font-size:clamp(28px,3.6vw,40px);letter-spacing:-.8px;line-height:1.1;margin-bottom:18px}
+.sub{color:var(--muted);max-width:38em;margin-bottom:38px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.two p+p{margin-top:14px}
+
+/* overview numbers */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border:2px solid var(--ink);border-radius:12px;background:var(--white)}
+.fact{padding:26px 22px;border-right:2px solid var(--ink)}
+.fact:last-child{border-right:0}
+.fact strong{display:block;font-family:var(--head);font-size:38px;line-height:1;letter-spacing:-1px}
+.fact span{display:block;margin-top:8px;color:var(--muted);font-size:15px}
+
+/* motto */
+.motto{background:var(--ink);color:var(--white);padding:84px 0;text-align:center}
+.motto blockquote{font-family:var(--head);font-weight:700;font-size:clamp(28px,4.6vw,52px);line-height:1.12;letter-spacing:-1px;max-width:16em;margin:0 auto}
+.motto p{margin:22px auto 0;max-width:34em;color:#b9cddd}
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:52px;text-align:left}
+.values div{border-top:3px solid var(--saffron);padding-top:16px}
+.values h4{font-family:var(--head);font-size:19px;margin-bottom:6px}
+.values p{margin:0;font-size:16px}
+
+/* reviews */
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.review{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:26px;display:flex;flex-direction:column;gap:16px}
+.stars{color:var(--saffron-dark);letter-spacing:3px;font-size:18px}
+.review p{flex:1}
+.who{font-weight:700;line-height:1.3}
+.who span{display:block;font-weight:400;color:var(--muted);font-size:14px}
+
+/* contact */
+.contact{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px}
+.info dt{font-weight:700;margin-top:18px}
+.info dd{color:var(--muted)}
+form.cf{display:grid;gap:14px}
+.cf label{font-weight:700;font-size:15px;display:block;margin-bottom:5px}
+.cf input,.cf textarea{width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:8px;font:inherit;background:var(--white);color:var(--ink)}
+.cf input:focus,.cf textarea:focus{border-color:var(--ink);outline:none}
+.cf textarea{min-height:120px;resize:vertical}
+.cf .status{font-weight:600;min-height:1.4em}
+.cf .ok{color:#1a7f4b}
+.cf .err{color:var(--danger)}
+
+/* access code */
+.codebox{background:var(--ink);color:var(--white);padding:56px 0}
+.codebox .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.codebox h2{margin-bottom:8px;font-size:clamp(24px,3vw,32px)}
+.codebox p{color:#b9cddd}
+.codeform{display:flex;gap:10px;flex-wrap:wrap}
+.codeform input{flex:1 1 200px;padding:13px 14px;border:2px solid #4b6a84;border-radius:8px;font:inherit;background:rgba(255,255,255,.08);color:var(--white)}
+.codeform input::placeholder{color:#9db6c9}
+.codeform input:focus{border-color:var(--saffron);outline:none}
+#codeMsg{flex-basis:100%;min-height:1.4em;font-weight:600}
+#codeMsg.err{color:#ffb4a6}
+#codeMsg.ok{color:#8fe0b2}
+
+/* access */
+.access{padding:76px 0}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.card{background:var(--white);border:2px solid var(--ink);border-radius:14px;padding:32px}
+.card h3{font-family:var(--head);font-size:26px;letter-spacing:-.5px;margin-bottom:8px}
+.card p{color:var(--muted);margin-bottom:22px}
+.card .small{margin-top:14px;margin-bottom:0;font-size:15px}
+.card .small a{font-weight:700;color:var(--ink)}
+
+footer{background:var(--ink);color:#b9cddd;padding:32px 0;font-size:15px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+@media (max-width:860px){
+    .links{display:none}
+    .hero .wrap,.two,.contact,.cards,.codebox .wrap{grid-template-columns:1fr;gap:36px}
+    .facts{grid-template-columns:1fr 1fr}
+    .fact:nth-child(2){border-right:0}
+    .fact:nth-child(-n+2){border-bottom:2px solid var(--ink)}
+    .values,.reviews{grid-template-columns:1fr}
+    .board{box-shadow:8px 8px 0 var(--saffron)}
+}
+@media (max-width:520px){.nav-actions .btn-line{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.fill{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+    <div class="wrap">
+        <a class="brand" href="home.html">IBM<i>HR Analytics</i></a>
+        <ul class="links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#motto">Motto</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a class="btn btn-line" href="login.html?role=employee">Employee Login</a>
+            <a class="btn btn-solid" href="login.html?role=hr">HR Login</a>
+        </div>
+    </div>
+</header>
+
+<main>
+<section class="hero">
+    <div class="wrap">
+        <div>
+            <h1>Know who is thinking about leaving before they hand in the letter.</h1>
+            <p class="lead">IBM helps HR teams see attrition risk early, understand what drives it, and act while there is still time to keep good people.</p>
+            <div class="cta">
+                <a class="btn btn-gold" href="login.html?role=hr">HR Login</a>
+                <a class="btn btn-line" href="login.html?role=employee">Employee Login</a>
+            </div>
+        </div>
+        <div class="board" id="board" aria-label="Sample attrition risk by department">
+            <h3>Attrition risk by department (sample)</h3>
+            <div class="row"><span>Sales</span><div class="track"><div class="fill high" style="--w:78%"></div></div><b>78%</b></div>
+            <div class="row"><span>Technology</span><div class="track"><div class="fill" style="--w:54%"></div></div><b>54%</b></div>
+            <div class="row"><span>Operations</span><div class="track"><div class="fill" style="--w:41%"></div></div><b>41%</b></div>
+            <div class="row"><span>Finance</span><div class="track"><div class="fill low" style="--w:22%"></div></div><b>22%</b></div>
+            <div class="row"><span>Research</span><div class="track"><div class="fill low" style="--w:15%"></div></div><b>15%</b></div>
+            <small>Illustrative figures. Your live numbers appear on the HR dashboard after login.</small>
+        </div>
+    </div>
+</section>
+
+<section class="block alt" id="about">
+    <div class="wrap two">
+        <div>
+            <h2>About the company</h2>
+            <p class="sub" style="margin-bottom:0">We build tools that turn HR data into decisions.</p>
+        </div>
+        <div>
+            <p>IBM HR started with a simple problem: companies lose experienced people and only find out when the resignation arrives. By then the reasons, such as overtime, a stalled promotion or a long commute, have been building for months.</p>
+            <p>Our platform studies past employee records, predicts who is at risk, and shows HR which factors matter most for each person. Managers get a short, ranked list instead of a spreadsheet, and employees get a place to view their own profile.</p>
+        </div>
+    </div>
+</section>
+
+<section class="block" id="overview">
+    <div class="wrap">
+        <h2>Company overview</h2>
+        <p class="sub">What the platform covers today.</p>
+        <div class="facts">
+            <div class="fact"><strong>1,470</strong><span>employee records analysed</span></div>
+            <div class="fact"><strong>30+</strong><span>factors checked per employee</span></div>
+            <div class="fact"><strong>Random Forest</strong><span>prediction model</span></div>
+            <div class="fact"><strong>2 roles</strong><span>HR team and employees</span></div>
+        </div>
+    </div>
+</section>
+
+<section class="motto" id="motto">
+    <div class="wrap">
+        <blockquote>People first. Data to back it up.</blockquote>
+        <p>Our motto guides every feature: use data to understand people better, never to replace the conversation.</p>
+        <div class="values">
+            <div><h4>Early, not late</h4><p>Risk is flagged while there is still time to talk and make a change.</p></div>
+            <div><h4>Explainable</h4><p>Every score comes with the factors behind it, so HR can trust and question it.</p></div>
+            <div><h4>Private by design</h4><p>Role-based access keeps HR data with HR and personal data with the person.</p></div>
+        </div>
+    </div>
+</section>
+
+<section class="block alt" id="reviews">
+    <div class="wrap">
+        <h2>What teams say</h2>
+        <p class="sub">Feedback from early users of the platform (reviews).</p>
+        <div class="reviews">
+            <article class="review">
+                <div class="stars" aria-label="5 out of 5">★★★★★</div>
+                <p>The high-risk list saves us hours every week. We now start retention conversations before the exit interview, not after.</p>
+                <div class="who">Priya Sharma<span>HR Manager</span></div>
+            </article>
+            <article class="review">
+                <div class="stars" aria-label="5 out of 5">★★★★★</div>
+                <p>I like that each prediction shows why. Overtime and years since promotion were clear in the breakdown, so the action was obvious.</p>
+                <div class="who">Rahul Verma<span>People Operations Lead</span></div>
+            </article>
+            <article class="review">
+                <div class="stars" aria-label="4 out of 5">★★★★☆</div>
+                <p>Simple to use. The dashboard loads fast and the action center keeps our follow-ups in one place.</p>
+                <div class="who">Ananya Singh<span> Partner</span></div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="block" id="contact">
+    <div class="wrap contact">
+        <div>
+            <h2>Contact us</h2>
+            <p class="sub">Questions about the platform or a demo? Write to us.</p>
+            <dl class="info">
+                <dt>Email</dt><dd>deepanshugoel0105@gmail.com</dd>
+                <dt>Phone</dt><dd>+91 9696297964</dd>
+                <dt>Office</dt><dd>Lucknow, Uttar Pradesh, India</dd>
+                <dt>Hours</dt><dd>Monday to Friday, 10:00 to 18:00 IST</dd>
+            </dl>
+        </div>
+        <form class="cf" id="contactForm" novalidate>
+            <div><label for="cName">Name</label><input id="cName" type="text" autocomplete="name" required></div>
+            <div><label for="cEmail">Email</label><input id="cEmail" type="email" autocomplete="email" required></div>
+            <div><label for="cMsg">Message</label><textarea id="cMsg" required></textarea></div>
+            <button class="btn btn-solid" type="submit">Send message</button>
+            <p class="status" id="cStatus" role="status"></p>
+        </form>
+    </div>
+</section>
+
+<section class="access alt" id="login" style="background:var(--white);border-top:1px solid var(--line)">
+    <div class="wrap">
+        <h2>Log in to continue</h2>
+        <p class="sub">Choose how you are signing in.</p>
+        <div class="cards">
+            <div class="card">
+                <h3>HR Login</h3>
+                <p>Dashboard, high-risk employees, predictions and the HR action center.</p>
+                <a class="btn btn-solid" href="login.html?role=hr">Log in as HR</a>
+                <p class="small">New HR user? <a href="register.html?role=hr">Create account</a></p>
+            </div>
+            <div class="card">
+                <h3>Employee Login</h3>
+                <p>View your own profile and details.</p>
+                <a class="btn btn-gold" href="login.html?role=employee">Log in as employee</a>
+                <p class="small">New here? <a href="register.html?role=employee">Create account</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="codebox" id="access-code">
+    <div class="wrap">
+        <div>
+            <h2>Have an HR access code?</h2>
+            <p>Enter the code demo123 you were given to open the HR dashboard in view-only mode, without creating an account.</p>
+        </div>
+        <form class="codeform" id="codeForm" autocomplete="off">
+            <label for="accessCode" style="position:absolute;left:-9999px">HR access code</label>
+            <input id="accessCode" type="password" placeholder="HR access code" autocomplete="off" required>
+            <button class="btn btn-gold" id="codeBtn" type="submit">View dashboard</button>
+            <p id="codeMsg" role="status"></p>
+        </form>
+    </div>
+</section>
+</main>
+
+<footer>
+    <div class="wrap">
+        <span>&copy; <span id="yr">2026</span>IBM HR Analytics</span>
+        <span>AI-Powered HR Analytics &amp; Attrition Prediction</span>
+    </div>
+</footer>
+
+<script>
+document.getElementById("yr").textContent = new Date().getFullYear();
+
+// Fill the sample risk bars once, when the page opens.
+window.addEventListener("load", function () {
+    setTimeout(function () { document.getElementById("board").classList.add("go"); }, 150);
+});
+
+// Contact form: opens the visitor's mail app with the message filled in.
+document.getElementById("contactForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = document.getElementById("cName").value.trim();
+    var email = document.getElementById("cEmail").value.trim();
+    var msg = document.getElementById("cMsg").value.trim();
+    var status = document.getElementById("cStatus");
+    if (!name || !/^\S+@\S+\.\S+$/.test(email) || !msg) {
+        status.textContent = "Enter your name, a valid email and a message.";
+        status.className = "status err";
+        return;
+    }
+    var body = msg + "\n\nFrom: " + name + " (" + email + ")";
+    window.location.href = "mailto:deepanshugoel0105@gmail.com?subject=" +
+        encodeURIComponent("Website enquiry from " + name) + "&body=" + encodeURIComponent(body);
+    status.textContent = "Your mail app should open with the message ready to send.";
+    status.className = "status ok";
+});
+
+// HR access code: the server checks the code. It is never stored in this page.
+document.getElementById("codeForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var msg = document.getElementById("codeMsg");
+    var btn = document.getElementById("codeBtn");
+    btn.disabled = true;
+    msg.className = "";
+    msg.textContent = "Checking code...";
+    try {
+        var res = await fetch("/auth/access-code", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ code: document.getElementById("accessCode").value })
+        });
+        var data = await res.json().catch(function () { return {}; });
+        if (!res.ok) {
+            msg.textContent = typeof data.detail === "string" ? data.detail : "Could not verify the code.";
+            msg.className = "err";
+            btn.disabled = false;
+            return;
+        }
+        msg.textContent = "Code accepted. Opening dashboard...";
+        msg.className = "ok";
+        setTimeout(function () { window.location.href = "index.html"; }, 400);
+    } catch (err) {
+        msg.textContent = "Cannot reach the server. Try again.";
+        msg.className = "err";
+        btn.disabled = false;
+    }
+});
+</script>
+</body>
+</html>
