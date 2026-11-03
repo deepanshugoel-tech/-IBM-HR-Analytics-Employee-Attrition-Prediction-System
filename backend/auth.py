@@ -35,6 +35,10 @@ COOKIE_NAME = "hr_session"
 COOKIE_SECURE = os.getenv("COOKIE_SECURE", "false").strip().lower() in ("1", "true", "yes")
 SESSION_HOURS = int(os.getenv("SESSION_HOURS", "12"))
 HR_INVITE_CODE = os.getenv("HR_INVITE_CODE", "").strip()
+# Visitors who type this code on the company page get a VIEW-ONLY look at the HR dashboard.
+HR_ACCESS_CODE = os.getenv("HR_ACCESS_CODE", "").strip()
+GUEST_EMAIL = "guest-hr@talentlens.local"
+GUEST_NAME = "Guest HR Viewer"
 
 
 def _database_url() -> str:
@@ -157,6 +161,8 @@ def register(data: RegisterIn, request: Request):
         raise HTTPException(status_code=400, detail="Name must be 2-80 characters.")
     if not security.valid_email(email):
         raise HTTPException(status_code=400, detail="Enter a valid email address.")
+    if email == GUEST_EMAIL:
+        raise HTTPException(status_code=400, detail="This email cannot be used.")
     if not (8 <= len(data.password) <= 128):
         raise HTTPException(status_code=400, detail="Password must be 8-128 characters.")
     if data.password.lower() == email:
@@ -214,6 +220,50 @@ def login(data: LoginIn, request: Request, response: Response):
     return {"success": True, "user": _public(user)}
 
 
+class AccessCodeIn(BaseModel):
+    code: str
+
+
+@router.post("/access-code")
+def access_code_login(data: AccessCodeIn, request: Request, response: Response):
+    """Company-page box: the right secret code opens the HR dashboard in view-only guest mode."""
+    import hmac
+    if not HR_ACCESS_CODE:
+        raise HTTPException(status_code=403, detail="Access code login is turned off on this server.")
+
+    ip_key = f"code-ip|{_ip(request)}"
+    window = 15 * 60
+    if limiter.blocked(ip_key, 5, window):
+        raise HTTPException(status_code=429, detail="Too many wrong codes. Try again in 15 minutes.")
+
+    if not hmac.compare_digest(data.code.strip().encode("utf-8"), HR_ACCESS_CODE.encode("utf-8")):
+        limiter.add(ip_key, window)
+        raise HTTPException(status_code=401, detail="Wrong access code.")
+
+    limiter.clear(ip_key)
+    with SessionLocal() as db:
+        user = db.scalar(select(User).where(User.email == GUEST_EMAIL))
+        if user is None:
+            user = User(name=GUEST_NAME, email=GUEST_EMAIL, role="HR",
+                        password_hash=security.hash_password(secrets.token_urlsafe(32)))
+            db.add(user)
+            try:
+                db.commit()
+            except IntegrityError:
+                db.rollback()
+                user = db.scalar(select(User).where(User.email == GUEST_EMAIL))
+        elif user.role != "HR":
+            raise HTTPException(status_code=500, detail="Guest account is misconfigured.")
+
+    token = security.create_token(user.id, SECRET_KEY, SESSION_HOURS)
+    response.set_cookie(
+        COOKIE_NAME, token,
+        max_age=SESSION_HOURS * 3600, httponly=True,
+        secure=COOKIE_SECURE, samesite="lax", path="/",
+    )
+    return {"success": True, "user": _public(user)}
+
+
 @router.get("/me")
 def me(user: User = Depends(current_user)):
     return _public(user)
@@ -252,6 +302,8 @@ def list_reviews(user: User = Depends(require_hr)):
 
 @reviews_router.post("")
 def add_reviews(data: ReviewIn, user: User = Depends(require_hr)):
+    if user.email == GUEST_EMAIL:
+        raise HTTPException(status_code=403, detail="Guest access is view-only.")
     ids = sorted(set(data.employee_numbers))
     if not ids or len(ids) > 2000 or any(i < 1 or i > 1_000_000 for i in ids):
         raise HTTPException(status_code=400, detail="Invalid employee list.")

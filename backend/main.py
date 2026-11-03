@@ -286,7 +286,7 @@ def prepare_model_input(input_df):
 
 @app.get("/", include_in_schema=False)
 def root():
-    return RedirectResponse(url="/login.html")
+    return RedirectResponse(url="/home.html")
 
 
 # ============================================================
